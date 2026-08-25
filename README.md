@@ -17,8 +17,8 @@
 * [Installation](#-Installation)
 * [Getting Started](#-Getting-Started)
 * [API](#-API)
-    * [Config](#config)
-    * [Settings](#settings)
+	* [Config](#config)
+	* [Settings](#settings)
 
 ## ⇁ The Problems
 1. You're working on a codebase. medium, large, tiny, whatever. You find
@@ -37,16 +37,16 @@ tmux windows, or dream up your own custom action and execute with a single key
 * install using [lazy.nvim](https://github.com/folke/lazy.nvim)
 ```lua
 {
-    "Matze64x/harpoon",
-    dependencies = { "nvim-lua/plenary.nvim" }
+	"Matze64x/harpoon",
+	dependencies = { "nvim-lua/plenary.nvim" }
 }
 ```
 * install using `packer`
 ```lua
 use "nvim-lua/plenary.nvim" -- don't forget to add this one if you don't have it yet!
 use {
-    "Matze64x/harpoon",
-    requires = { {"nvim-lua/plenary.nvim"} }
+	"Matze64x/harpoon",
+	requires = { {"nvim-lua/plenary.nvim"} }
 }
 ```
 
@@ -96,23 +96,23 @@ harpoon:setup({})
 -- basic telescope configuration
 local conf = require("telescope.config").values
 local function toggle_telescope(harpoon_files)
-    local file_paths = {}
-    for _, item in ipairs(harpoon_files.items) do
-        table.insert(file_paths, item.value)
-    end
+	local file_paths = {}
+	for _, item in ipairs(harpoon_files.items) do
+		table.insert(file_paths, item.value)
+	end
 
-    require("telescope.pickers").new({}, {
-        prompt_title = "Harpoon",
-        finder = require("telescope.finders").new_table({
-            results = file_paths,
-        }),
-        previewer = conf.file_previewer({}),
-        sorter = conf.generic_sorter({}),
-    }):find()
+	require("telescope.pickers").new({}, {
+		prompt_title = "Harpoon",
+		finder = require("telescope.finders").new_table({
+			results = file_paths,
+		}),
+		previewer = conf.file_previewer({}),
+		sorter = conf.generic_sorter({}),
+	}):find()
 end
 
 vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
-    { desc = "Open harpoon window" })
+	{ desc = "Open harpoon window" })
 ```
 
 ## ⇁ API
@@ -131,43 +131,43 @@ easy to create.
 local harpoon = require("harpoon")
 
 harpoon:setup({
-    -- Setting up custom behavior for a list named "cmd"
-    "cmd" = {
+	-- Setting up custom behavior for a list named "cmd"
+	"cmd" = {
 
-        -- When you call list:add() this function is called and the return
-        -- value will be put in the list at the end.
-        --
-        -- which means same behavior for prepend except where in the list the
-        -- return value is added
-        --
-        -- @param possible_value string only passed in when you alter the ui manual
-        add = function(possible_value)
-            -- get the current line idx
-            local idx = vim.fn.line(".")
+		-- When you call list:add() this function is called and the return
+		-- value will be put in the list at the end.
+		--
+		-- which means same behavior for prepend except where in the list the
+		-- return value is added
+		--
+		-- @param possible_value string only passed in when you alter the ui manual
+		add = function(possible_value)
+			-- get the current line idx
+			local idx = vim.fn.line(".")
 
-            -- read the current line
-            local cmd = vim.api.nvim_buf_get_lines(0, idx - 1, idx, false)[1]
-            if cmd == nil then
-                return nil
-            end
+			-- read the current line
+			local cmd = vim.api.nvim_buf_get_lines(0, idx - 1, idx, false)[1]
+			if cmd == nil then
+				return nil
+			end
 
-            return {
-                value = cmd,
-                context = { ... any data you want ... },
-            }
-        end,
+			return {
+				value = cmd,
+				context = { ... any data you want ... },
+			}
+		end,
 
-        --- This function gets invoked with the options being passed in from
-        --- list:select(index, <...options...>)
-        --- @param list_item {value: any, context: any}
-        --- @param list { ... }
-        --- @param option any
-        select = function(list_item, list, option)
-            -- WOAH, IS THIS HTMX LEVEL XSS ATTACK??
-            vim.cmd(list_item.value)
-        end
+		--- This function gets invoked with the options being passed in from
+		--- list:select(index, <...options...>)
+		--- @param list_item {value: any, context: any}
+		--- @param list { ... }
+		--- @param option any
+		select = function(list_item, list, option)
+			-- WOAH, IS THIS HTMX LEVEL XSS ATTACK??
+			vim.cmd(list_item.value)
+		end
 
-    }
+	}
 })
 
 ```
@@ -226,11 +226,11 @@ Settings can alter the experience of harpoon
 **Defaults**
 ```lua
 settings = {
-    save_on_toggle = false,
-    sync_on_ui_close = false,
-    key = function()
-        return vim.loop.cwd()
-    end,
+	save_on_toggle = false,
+	sync_on_ui_close = false,
+	key = function()
+		return vim.loop.cwd()
+	end,
 },
 ```
 
@@ -240,17 +240,17 @@ The 'extend' functionality can be used to add keymaps for opening files in split
 ```lua
 harpoon:extend({
   UI_CREATE = function(cx)
-    vim.keymap.set("n", "<C-v>", function()
-      harpoon.ui:select_menu_item({ vsplit = true })
-    end, { buffer = cx.bufnr })
+	vim.keymap.set("n", "<C-v>", function()
+	  harpoon.ui:select_menu_item({ vsplit = true })
+	end, { buffer = cx.bufnr })
 
-    vim.keymap.set("n", "<C-x>", function()
-      harpoon.ui:select_menu_item({ split = true })
-    end, { buffer = cx.bufnr })
+	vim.keymap.set("n", "<C-x>", function()
+	  harpoon.ui:select_menu_item({ split = true })
+	end, { buffer = cx.bufnr })
 
-    vim.keymap.set("n", "<C-t>", function()
-      harpoon.ui:select_menu_item({ tabedit = true })
-    end, { buffer = cx.bufnr })
+	vim.keymap.set("n", "<C-t>", function()
+	  harpoon.ui:select_menu_item({ tabedit = true })
+	end, { buffer = cx.bufnr })
   end,
 })
 ```
