@@ -293,6 +293,7 @@ function HarpoonList:select(index, options)
 			{ list = self, item = item, idx = index }
 		)
 		self.config.select(item, self, options)
+		self._index = index
 	end
 end
 
