@@ -247,7 +247,29 @@ function M.get_default_config()
 				end
 			end,
 
-			autocmds = { "BufLeave" },
+			---@param arg {buf: number}
+			---@param list HarpoonList
+			BufEnter = function(arg, list)
+				local bufnr = arg.buf
+				local bufname = normalize_path(
+					vim.api.nvim_buf_get_name(bufnr),
+					list.config.get_root_dir()
+				)
+				local _, index = list:get_by_value(bufname)
+
+				if index then
+					Logger:log(
+						"config_default#BufEnter syncing index",
+						bufnr,
+						bufname,
+						"to index",
+						index
+					)
+					list._index = index
+				end
+			end,
+
+			autocmds = { "BufEnter", "BufLeave" },
 		},
 	}
 end
