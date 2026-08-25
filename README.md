@@ -9,6 +9,8 @@
 <img alt="Harpoon Man" height="280" src="/assets/harpoon-icon.png" />
 </div>
 
+> This is a personal fork of [ThePrimeagen/harpoon](https://github.com/ThePrimeagen/harpoon) (the `harpoon2` branch), maintained independently.
+
 ## ⇁ TOC
 * [The Problems](#-The-Problems)
 * [The Solutions](#-The-Solutions)
@@ -17,9 +19,6 @@
 * [API](#-API)
     * [Config](#config)
     * [Settings](#settings)
-* [Contribution](#-Contribution)
-* [Social](#-Social)
-* [Note to legacy Harpoon 1 users](#-Note-to-legacy-Harpoon-1-users)
 
 ## ⇁ The Problems
 1. You're working on a codebase. medium, large, tiny, whatever. You find
@@ -35,21 +34,19 @@ tmux windows, or dream up your own custom action and execute with a single key
 
 ## ⇁ Installation
 * neovim 0.8.0+ required
-* install using your favorite plugin manager (i am using `packer` in this case)
-```lua
-use "nvim-lua/plenary.nvim" -- don't forget to add this one if you don't have it yet!
-use {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    requires = { {"nvim-lua/plenary.nvim"} }
-}
-```
 * install using [lazy.nvim](https://github.com/folke/lazy.nvim)
 ```lua
 {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
+    "Matze64x/harpoon",
     dependencies = { "nvim-lua/plenary.nvim" }
+}
+```
+* install using `packer`
+```lua
+use "nvim-lua/plenary.nvim" -- don't forget to add this one if you don't have it yet!
+use {
+    "Matze64x/harpoon",
+    requires = { {"nvim-lua/plenary.nvim"} }
 }
 ```
 
@@ -224,7 +221,7 @@ Settings can alter the experience of harpoon
 **Descriptions**
 * `save_on_toggle`: any time the ui menu is closed then we will save the state back to the backing list, not to the fs
 * `sync_on_ui_close`: any time the ui menu is closed then the state of the list will be sync'd back to the fs
-* `key` how the out list key is looked up.  This can be useful when using worktrees and using git remote instead of file path
+* `key` how the out list key is looked up. This can be useful when using worktrees and using git remote instead of file path
 
 **Defaults**
 ```lua
@@ -266,46 +263,9 @@ local harpoon_extensions = require("harpoon.extensions")
 harpoon:extend(harpoon_extensions.builtins.highlight_current_file())
 ```
 
-### Highlight Groups
-TODO: Fill in the idea that we will emit out window information
-
 ### Logger
-This can help debug issues on other's computer.  To get your debug log please do the following.
+This can help debug issues. To get your debug log please do the following.
 
 1. open up a new instance of vim
 1. perform exact operation to cause bug
 1. execute vim command `:lua require("harpoon").logger:show()` and copy the buffer
-1. paste the buffer as part of the bug creation
-
-## Extends
-THIS PART OF THE DOCS NEEDS FILLING OUT
-
-```lua
-local harpoon = require("harpoon");
-local extensions = require("harpoon.extensions");
-
-harpoon:setup()
-harpoon:extend(extensions.builtins.command_on_nav("foo bar"));
-harpoon:extend(extensions.builtins.navigate_with_number());
-```
-
-## ⇁ Contribution
-This project is officially open source, not just public source.  If you wish to
-contribute start with an issue and I am totally willing for PRs, but I will be
-very conservative on what I take.  I don't want Harpoon _solving_ specific
-issues, I want it to create the proper hooks to solve any problem
-
-**Running Tests**
-To run the tests make sure [plenary](https://github.com/nvim-lua/plenary.nvim) is checked out in the parent directory of *this* repository, then run `make test`.
-
-## ⇁ Social
-For questions about Harpoon, there's a #harpoon channel on [the Primeagen's Discord](https://discord.gg/theprimeagen) server.
-* [Discord](https://discord.gg/theprimeagen)
-* [Twitch](https://www.twitch.tv/theprimeagen)
-* [Twitter](https://twitter.com/ThePrimeagen)
-
-## ⇁ Note to legacy Harpoon 1 users
-Original Harpoon will remain in a frozen state and i will merge PRs in with _no
-code review_ for those that wish to remain on that.  Harpoon 2 is significantly
-better and allows for MUCH greater control.  Please migrate to that (will
-become `master` within the next few months).
